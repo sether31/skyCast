@@ -9,17 +9,108 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <style>
+    .bg_day_pic{
+      background-image: url('./assets/bg_day.jpg');
+    }
+
+    .bg_night_pic{
+      background-image: url('./assets/bg_night.jpg');
+    }
+
+  </style>
 </head>
-<body>
-  
+<body class="font-poppins min-h-dvh grid text-white place-content-center bg-cover bg-center relative selection:bg-myColor">
+
+  <div id="loading" class="min-h-dvh fixed inset-0 z-50 bg-black grid gap-4 place-content-center bg-wait_mobile_pic md:bg-wait_desktop_pic bg-cover bg-center hidden">
+    <div class="animate-spin h-12 w-12 rounded-full border-t-2 border-blue-500 mx-auto"></div>
+    <p class="text-center text-lg tracking-wide">Please wait...</p>
+  </div>
+
+  <main class="max-w-md p-4 mx-4 overflow-hidden">
+    <!-- search place -->
+    <section class="search">
+      <form class="flex gap-1 justify-center align-center">
+        <input id="search" type="text" class="border bg-transparent outline-none backdrop-opacity-70 rounded-lg py-1 px-4" placeholder="Enter place">
+        <button type="submit" class="p-[10px] rounded-lg bg-myColor hover:opacity-80 ease-in-out duration-300" id="search-btn">
+          <img class="w-[30px] h-[30px]" src="./assets/search.svg" alt="asd">
+        </button> 
+      </form>
+    </section>
+
+    <div id="message" class="text-red-500 italic"></div>
+
+    <section class="mt-4 grid gap-6">
+      <article class="text-center">
+        <!-- place -->
+        <h1 id="place" class="text-2xl tracking-wide font-bold text-pretty"></h1>
+        <!-- date and time -->
+        <h3 id="date" class="text-md font-semibold"></h3>
+      </article>
+
+      <article class="w-[200px] grid place-content-center mx-auto">
+        <img id="condition-icon" class="w-30 h-30" alt="weather-icon">
+      </article>
+
+      <article class=" text-center">
+        <!-- degrees -->
+        <h1 id="degrees" class="text-3xl font-bold"></h1>
+        <!-- greet -->
+        <h3 id="greet" class="text-md font-semibold"></h3>
+        <!-- condition of cloud -->
+        <h3 id="condition-text" class="text-md font-semibold"></h3>
 
 
+        <div class="mt-8 flex space-between gap-2">
+          <div class="flex-1"> 
+            <svg class="w-[30px] mx-auto" fill="#ffffff" viewBox="0 0 256 256" id="Flat" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier"> 
+                <path d="M81.44434,42.05566A3.99963,3.99963,0,1,1,88.835,38.99512l7.65332,18.47754a3.99963,3.99963,0,1,1-7.39062,3.06054ZM22.99463,104.835l18.47754,7.65332a3.99982,3.99982,0,0,0,3.06152-7.39062L26.05615,97.44434a3.99982,3.99982,0,0,0-3.06152,7.39062Zm190.00391,7.959a3.97541,3.97541,0,0,0,1.52929-.30567l18.47754-7.65332a3.99982,3.99982,0,0,0-3.06152-7.39062l-18.47754,7.65332a4.00062,4.00062,0,0,0,1.53223,7.69629ZM161.67627,62.69824a3.9958,3.9958,0,0,0,5.22607-2.165l7.65332-18.47754a3.99963,3.99963,0,1,0-7.39062-3.06054l-7.65332,18.47754A3.99861,3.99861,0,0,0,161.67627,62.69824ZM244,160a4.0002,4.0002,0,0,1-4,4H185.85693l-.01172.001-.01464-.001H16a4,4,0,0,1,0-8H65.1333a64,64,0,1,1,125.7334,0H240A4.0002,4.0002,0,0,1,244,160ZM73.29614,156H182.70386a56,56,0,1,0-109.40772,0ZM208,196H48a4,4,0,0,0,0,8H208a4,4,0,0,0,0-8Z"></path> 
+              </g>
+            </svg>
+            <p class="text-sm">Sunset</p>
+            <!-- sunset -->
+            <h2 class="text-md font-semibold" id="sunset"></h2>
+          </div>
+          <div class="flex-1">
+            <svg class="w-[30px] mx-auto" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier"> 
+                <path d="M10.43 19.53H10.37C9.4274 19.5142 8.5221 19.1591 7.82 18.53C7.49643 18.1966 7.24576 17.7994 7.08393 17.3639C6.92211 16.9283 6.85266 16.4639 6.88 16C6.88 15.8011 6.95902 15.6104 7.09967 15.4697C7.24032 15.329 7.43109 15.25 7.63 15.25C7.82891 15.25 8.01968 15.329 8.16033 15.4697C8.30098 15.6104 8.38 15.8011 8.38 16C8.36081 16.2599 8.3953 16.521 8.48132 16.767C8.56733 17.013 8.70304 17.2387 8.88 17.43C9.30179 17.7924 9.8343 18.0004 10.39 18.02C10.9426 18.0216 11.4778 17.8266 11.9 17.47C12.0789 17.2715 12.2162 17.0391 12.3038 16.7867C12.3914 16.5342 12.4275 16.2667 12.41 16C12.4297 15.7324 12.3937 15.4635 12.3042 15.2105C12.2147 14.9575 12.0736 14.7258 11.89 14.53C11.4723 14.1713 10.9406 13.9728 10.39 13.97H3.81C3.61109 13.97 3.42032 13.891 3.27967 13.7504C3.13902 13.6097 3.06 13.4189 3.06 13.22C3.06 13.0211 3.13902 12.8304 3.27967 12.6897C3.42032 12.549 3.61109 12.47 3.81 12.47H10.37C11.3213 12.4717 12.2377 12.8283 12.94 13.47C13.2731 13.8013 13.534 14.1981 13.7061 14.6353C13.8782 15.0724 13.9579 15.5405 13.94 16.01C13.9579 16.4795 13.8782 16.9476 13.7061 17.3848C13.534 17.822 13.2731 18.2187 12.94 18.55C12.2531 19.1756 11.359 19.5247 10.43 19.53Z" fill="#ffffff"></path> <path d="M18.21 17C17.389 16.9945 16.6001 16.6804 16 16.12C15.7303 15.8432 15.5202 15.514 15.3826 15.1528C15.245 14.7917 15.1829 14.4061 15.2 14.02C15.2 13.8211 15.279 13.6304 15.4197 13.4897C15.5603 13.349 15.7511 13.27 15.95 13.27C16.1489 13.27 16.3397 13.349 16.4803 13.4897C16.621 13.6304 16.7 13.8211 16.7 14.02C16.6839 14.3877 16.8132 14.747 17.06 15.02C17.368 15.2815 17.7562 15.4297 18.16 15.44C18.6904 15.44 19.1991 15.2293 19.5742 14.8542C19.9493 14.4792 20.16 13.9705 20.16 13.44C20.16 12.9096 19.9493 12.4009 19.5742 12.0258C19.1991 11.6507 18.6904 11.44 18.16 11.44H5.85001C4.89943 11.4345 3.98431 11.0784 3.28001 10.44C2.96599 10.1174 2.71937 9.73553 2.55455 9.3166C2.38972 8.89767 2.30999 8.45011 2.32001 8.00003C2.29968 7.53025 2.37818 7.06143 2.55044 6.6239C2.72269 6.18637 2.98487 5.78986 3.32001 5.46003C4.01657 4.81559 4.93106 4.45837 5.88001 4.46003C6.8212 4.48288 7.72418 4.83699 8.43001 5.46003C8.75128 5.79634 8.999 6.19587 9.15739 6.63318C9.31578 7.07048 9.38138 7.53598 9.35001 8.00003C9.35001 8.19894 9.27099 8.38971 9.13034 8.53036C8.98968 8.67101 8.79892 8.75003 8.60001 8.75003C8.40109 8.75003 8.21033 8.67101 8.06967 8.53036C7.92902 8.38971 7.85001 8.19894 7.85001 8.00003C7.86684 7.74032 7.83125 7.47988 7.74535 7.23421C7.65946 6.98854 7.525 6.76266 7.35001 6.57003C6.92124 6.21556 6.38612 6.01489 5.83001 6.00003C5.27842 6.00439 4.74518 6.19862 4.32001 6.55003C4.14535 6.74693 4.01128 6.97637 3.92548 7.22519C3.83968 7.47401 3.80384 7.73732 3.82001 8.00003C3.79843 8.26469 3.83169 8.53096 3.91773 8.78218C4.00376 9.0334 4.14071 9.26416 4.32001 9.46003C4.74666 9.81449 5.28535 10.0059 5.84001 10H18.2C19.1283 10 20.0185 10.3688 20.6749 11.0252C21.3313 11.6815 21.7 12.5718 21.7 13.5C21.7 14.4283 21.3313 15.3185 20.6749 15.9749C20.0185 16.6313 19.1283 17 18.2 17H18.21Z" fill="#ffffff"></path> 
+              </g>
+            </svg>
+            <p class="text-sm">Wind</p>
+            <!-- wind -->
+            <h2 class="text-md font-semibold" id="wind"></h2>
+          </div>
+          <div class="flex-1">
+            <svg class="w-[30px] mx-auto" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier"> 
+                <path d="M12 15.9998C11.4477 15.9998 11 16.4475 11 16.9998C11 17.5521 11.4477 17.9998 12 17.9998C12.5523 17.9998 13 17.5521 13 16.9998C13 16.4475 12.5523 15.9998 12 15.9998ZM12 15.9998L12.0071 10.5M12 16.9998L12.0071 17.0069M16 16.9998C16 19.209 14.2091 20.9998 12 20.9998C9.79086 20.9998 8 19.209 8 16.9998C8 15.9854 8.37764 15.0591 9 14.354L9 6C9 4.34315 10.3431 3 12 3C13.6569 3 15 4.34315 15 6V14.354C15.6224 15.0591 16 15.9854 16 16.9998Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> 
+              </g>
+            </svg>
+            <p class="text-sm">Feels like</p>
+            <!-- feels like in celsius -->
+            <h2 class="text-md font-semibold" id="feels-like"></h2>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
 
   <script>
     tailwind.config = {
       theme: {
         extend: {
-
+          colors: {
+            myColor: '#323846'
+          },
+          fontFamily: {
+            poppins: ['Poppins', 'sans-serif']
+          },
+          backgroundImage: {
+            'wait_desktop_pic': "url('./assets/wait-desktop.gif')",
+            'wait_mobile_pic': "url('./assets/wait-mobile.jpg')",
+          }
         }
       }
     }
